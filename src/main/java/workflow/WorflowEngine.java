@@ -5,9 +5,12 @@ import java.util.List;
 
 public class WorflowEngine {
 
+    public static IWorkflowTemplate UAT_WORKFLOW = new UATWorkflowTemplate();
+//    public static IWorkflowTemplate TAE_WORKFLOW = new TravelAndExpensesWorkflowTemplate();
+
     static List<IWorkflowTemplate> ALL_TEMPLATES = Arrays.asList(
-            new UATWorkflowTemplate(),
-            new TravelAndExpensesWorkflowTemplate()
+            UAT_WORKFLOW/*,*/
+//            TAE_WORKFLOW
     );
 
     public static List<IWorkflowTemplate> getWorkflowTemplatesFor(String eric) {

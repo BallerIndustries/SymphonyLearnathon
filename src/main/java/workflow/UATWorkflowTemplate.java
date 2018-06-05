@@ -5,6 +5,7 @@ import clients.SymBotClient;
 import messaging.RoomListenerImpl;
 import model.*;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.NoContentException;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,11 @@ public class UATWorkflowTemplate extends WorkflowTemplateBase {
             createChatRoomFor(roomName, uat);
             return (a,b)->"A chat room '" + roomName + "' has been opened";
         }
+    }
+
+    @Override
+    public BiFunction<String, String, String> onOtherMessage(String msg) {
+        throw new NotSupportedException();
     }
 
     private String createChatRoomFor(String roomName, String uat){
