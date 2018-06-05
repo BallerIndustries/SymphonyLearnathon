@@ -40,9 +40,8 @@ public class TravelAndExpensesHacking {
     List<Pair<String, OutboundMessage>> processText(InboundMessage inboundMessage) {
         List<Pair<String, OutboundMessage>> messages = new ArrayList<>();
 
+        String outMsg;
         String msg = inboundMessage.getMessageText().toUpperCase();
-
-        String outMsg = null;
         OutboundMessage outboundMessage = new OutboundMessage();
 
         switch (msg) {
@@ -79,8 +78,7 @@ public class TravelAndExpensesHacking {
                 break;
 
             default:
-                outMsg = "UNHANDLED MESSAGE";
-                break;
+                return new ArrayList<>();
         }
 
         outboundMessage.setMessage(outMsg);

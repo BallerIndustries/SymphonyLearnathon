@@ -5,16 +5,12 @@ import model.InboundMessage;
 import model.OutboundMessage;
 import model.Stream;
 import model.events.*;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import workflow.Dispatcher;
 import workflow.TravelAndExpensesHacking;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
 public class TAndERoomListenerImpl implements listeners.RoomListener {
 
@@ -31,7 +27,6 @@ public class TAndERoomListenerImpl implements listeners.RoomListener {
 
     public void onRoomMessage(InboundMessage inboundMessage) {
         try {
-            String user = inboundMessage.getUser().getFirstName();
             String message = inboundMessage.getMessageText();
             System.out.println("room message = " + message);
             List<Pair<String, OutboundMessage>> messages = hacking.process(inboundMessage);

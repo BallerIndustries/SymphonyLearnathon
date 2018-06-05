@@ -4,11 +4,11 @@ import model.InboundMessage;
 import model.OutboundMessage;
 import model.Stream;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,8 +31,8 @@ public class TravelAndExpensesHackingTest {
 
     void assertText(InboundMessage inboundMessage, int index, String expectedResponse, String expectedStreamId) {
         List<Pair<String, OutboundMessage>> result = travelAndExpensesHacking.process(inboundMessage);
-        Assert.assertEquals(result.get(index).getRight().getMessage(),expectedResponse);
-        Assert.assertEquals(result.get(index).getLeft(), expectedStreamId);
+        assertEquals(result.get(index).getRight().getMessage(),expectedResponse);
+        assertEquals(result.get(index).getLeft(), expectedStreamId);
 
     }
 
@@ -58,7 +58,7 @@ public class TravelAndExpensesHackingTest {
     @Test
     public void canHandleUnexpectedMessages() {
         InboundMessage someInboundMessage = jibberjabber("WOAahahhh what an unexpected message dude!!!!");
-        assertText(someInboundMessage, 0,"UNHANDLED MESSAGE","someID");
+        assertEquals(travelAndExpensesHacking.process(someInboundMessage).size(), 0);
     }
 
     @Test
