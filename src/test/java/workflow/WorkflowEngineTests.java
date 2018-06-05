@@ -10,7 +10,7 @@ public class WorkflowEngineTests {
 
     @Test
     public void workflowListIsReturned() {
-        List<IWorkflow> list = WorflowEngine.getWorkflowsFor("eric");
+        List<IWorkflowTemplate> list = WorflowEngine.getWorkflowsFor("eric");
         assertEquals(2, list.size());
     }
 }

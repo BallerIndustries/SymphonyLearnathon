@@ -5,12 +5,12 @@ import java.util.List;
 
 public class WorflowEngine {
 
-    static List<IWorkflow> ALL_WORKFLOWS = Arrays.asList(
-            new SimpleWorkflow("RFC 2341 approval"),
-            new SimpleWorkflow("GARS approvals")
+    static List<IWorkflowTemplate> ALL_WORKFLOWS = Arrays.asList(
+            new UATWorkflowTemplate(),
+            new TravelAndExpensesWorkflowTemplate()
     );
 
-    public static List<IWorkflow> getWorkflowsFor(String eric) {
+    public static List<IWorkflowTemplate> getWorkflowsFor(String eric) {
         return ALL_WORKFLOWS;
     }
 }

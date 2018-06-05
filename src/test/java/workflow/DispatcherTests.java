@@ -14,7 +14,7 @@ public class DispatcherTests {
     public void listWorkflowsDispatchesToListWorkflows() {
         BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "list workflows");
         assertNotNull(dispatched);
-        String expected = "RFC 2341 approval\n" + "GARS approvals";
+        String expected = "UAT approval\n" + "T&E approval";
         String message = dispatched.apply("eric", "list workflows");
         assertEquals(expected, message);
     }

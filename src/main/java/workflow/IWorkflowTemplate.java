@@ -1,6 +1,6 @@
 package workflow;
 
-public interface IWorkflow {
+public interface IWorkflowTemplate {
 
     String getName();
 }

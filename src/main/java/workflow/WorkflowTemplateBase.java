@@ -1,10 +1,10 @@
 package workflow;
 
-public class SimpleWorkflow implements IWorkflow {
+public abstract class WorkflowTemplateBase implements IWorkflowTemplate {
 
     String name;
 
-    public SimpleWorkflow(String name) {
+    public WorkflowTemplateBase(String name) {
         this.name = name;
     }
 

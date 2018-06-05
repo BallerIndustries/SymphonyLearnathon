@@ -18,7 +18,7 @@ public class Dispatcher {
 
     public static String listWorkflows(String user, String message) {
         return WorflowEngine.getWorkflowsFor(user).stream()
-                .map(IWorkflow::getName)
+                .map(IWorkflowTemplate::getName)
                 .collect(Collectors.joining("\n"));
    }
 
