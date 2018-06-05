@@ -1,10 +1,10 @@
-package messaging;
 
 import authentication.SymBotAuth;
 import clients.SymBotClient;
 import configuration.SymConfig;
 import configuration.SymConfigLoader;
 import exceptions.SymClientException;
+import model.OutboundMessage;
 import model.Room;
 import model.RoomInfo;
 import model.UserInfo;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import services.DatafeedEventsService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.File;
 import java.net.URL;
 import java.util.UUID;
 
@@ -67,17 +68,30 @@ public class SymphonySmokeTests {
         botClient.getStreamsClient().addMemberToRoom(roomInfo.getRoomSystemInfo().getId(), userInfo.getId());
     }
 
-    @Ignore
     @Test
-    public void can_listen_to_rooms_being_created() throws Exception {
-        DatafeedEventsService datafeedEventsService = botClient.getDatafeedEventsService();
-        TestRoomListener roomListener = new TestRoomListener();
-        datafeedEventsService.addRoomListener(roomListener);
+    public void can_send_a_file_with_an_attachment() throws Exception {
+        OutboundMessage messageOut = new OutboundMessage();
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("tande_template.csv").getFile());
 
-        Assert.assertEquals(roomListener.roomCreated, false);
-        createRoom();
-        Assert.assertEquals(roomListener.roomCreated, true);
+
+        messageOut.setAttachment(new File[] {file});
+        messageOut.setMessage("Hello Pacco, enjoy this file");
+        botClient.getMessagesClient().sendMessage("VLibHxSDbyHP3l7zaluvxH___pwx7opldA", messageOut);
+
     }
+
+//    @Ignore
+//    @Test
+//    public void can_listen_to_rooms_being_created() throws Exception {
+//        DatafeedEventsService datafeedEventsService = botClient.getDatafeedEventsService();
+//        TestRoomListener roomListener = new TestRoomListener();
+//        datafeedEventsService.addRoomListener(roomListener);
+//
+//        Assert.assertEquals(roomListener.roomCreated, false);
+//        createRoom();
+//        Assert.assertEquals(roomListener.roomCreated, true);
+//    }
 
     @Ignore
     @Test

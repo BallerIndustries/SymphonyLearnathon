@@ -39,4 +39,9 @@ public class DispatcherTests {
         String message = dispatched.apply("eric", cmd);
         assertEquals(expected, message);
     }
+    @Test
+    public void startTEApproval() {
+        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "start T&E approval");
+        assertNotNull(dispatched);
+    }
 }
