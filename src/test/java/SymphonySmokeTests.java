@@ -34,7 +34,7 @@ public class SymphonySmokeTests {
     @Before
     public void authenticate() {
         if (botAuth == null) {
-            URL url = getClass().getResource("config.json");
+            URL url = getClass().getResource("app/config.json");
             SymConfigLoader configLoader = new SymConfigLoader();
             SymConfig config = configLoader.loadFromFile(url.getPath());
             botAuth = new SymBotAuth(config);
@@ -73,8 +73,6 @@ public class SymphonySmokeTests {
         OutboundMessage messageOut = new OutboundMessage();
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("tande_template.csv").getFile());
-
-
         messageOut.setAttachment(new File[] {file});
         messageOut.setMessage("Hello Pacco, enjoy this file");
         botClient.getMessagesClient().sendMessage("VLibHxSDbyHP3l7zaluvxH___pwx7opldA", messageOut);

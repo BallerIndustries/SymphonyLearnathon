@@ -31,7 +31,7 @@ If you approve these expenses say APPROVE otherwise say REJECT.
 
 Naeem: APPROVE
 
-Bot: Great! Progressing on to Larry for approval
+Bot: Great! Thanks for approving.
 
 --------------------
 Chat with Pacco and the bot

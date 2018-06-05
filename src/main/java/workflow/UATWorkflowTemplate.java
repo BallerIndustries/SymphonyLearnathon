@@ -6,6 +6,7 @@ import exceptions.SymClientException;
 import messaging.RoomListenerImpl;
 import model.*;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
 import java.util.function.BiFunction;
