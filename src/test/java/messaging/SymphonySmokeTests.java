@@ -1,3 +1,5 @@
+package messaging;
+
 import authentication.SymBotAuth;
 import clients.SymBotClient;
 import configuration.SymConfig;
@@ -6,6 +8,7 @@ import exceptions.SymClientException;
 import model.Room;
 import model.RoomInfo;
 import model.UserInfo;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -70,9 +73,9 @@ public class SymphonySmokeTests {
         TestRoomListener roomListener = new TestRoomListener();
         datafeedEventsService.addRoomListener(roomListener);
 
-        assertEquals(roomListener.roomCreated, false);
+        Assert.assertEquals(roomListener.roomCreated, false);
         createRoom();
-        assertEquals(roomListener.roomCreated, true);
+        Assert.assertEquals(roomListener.roomCreated, true);
     }
 
     @Ignore

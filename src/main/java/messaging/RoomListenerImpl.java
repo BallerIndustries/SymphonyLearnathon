@@ -1,3 +1,5 @@
+package messaging;
+
 import clients.SymBotClient;
 import model.InboundMessage;
 import model.OutboundMessage;

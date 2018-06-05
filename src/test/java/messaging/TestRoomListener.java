@@ -1,3 +1,5 @@
+package messaging;
+
 import model.InboundMessage;
 import model.Stream;
 import model.events.*;

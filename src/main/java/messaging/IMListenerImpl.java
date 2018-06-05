@@ -1,3 +1,5 @@
+package messaging;
+
 import clients.SymBotClient;
 import model.InboundMessage;
 import model.OutboundMessage;
@@ -12,8 +14,9 @@ public class IMListenerImpl implements listeners.IMListener {
     }
 
     public void onIMMessage(InboundMessage inboundMessage) {
+
         OutboundMessage messageOut = new OutboundMessage();
-        messageOut.setMessage("Hi " + inboundMessage.getUser().getFirstName() + "!");
+        messageOut.setMessage("Hi " + inboundMessage.getUser().getFirstName() + " from Eric's MBP!");
         try {
             this.botClient.getMessagesClient().sendMessage(inboundMessage.getStream().getStreamId(), messageOut);
         } catch (Exception e) {

@@ -4,6 +4,8 @@ import configuration.SymConfig;
 import configuration.SymConfigLoader;
 import listeners.IMListener;
 import listeners.RoomListener;
+import messaging.IMListenerImpl;
+import messaging.RoomListenerImpl;
 import model.*;
 import services.DatafeedEventsService;
 
@@ -35,7 +37,7 @@ public class BotExample {
         datafeedEventsService.addRoomListener(roomListenerTest);
         datafeedEventsService.addIMListener(imListener);
 
-        createRoom(botClient);
+        // createRoom(botClient);
     }
 
     private void createRoom(SymBotClient botClient){
