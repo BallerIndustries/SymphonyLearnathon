@@ -4,6 +4,7 @@ import clients.SymBotClient;
 import model.InboundMessage;
 import model.OutboundMessage;
 import model.Stream;
+import org.apache.commons.lang3.StringEscapeUtils;
 import workflow.Dispatcher;
 
 import java.util.function.BiFunction;
@@ -23,6 +24,7 @@ public class IMListenerImpl implements listeners.IMListener {
         if(function!=null) {
             String output = function.apply(user, message);
             if (output.trim().length() > 0) {
+                output = StringEscapeUtils.escapeHtml4(output);
                 OutboundMessage messageOut = new OutboundMessage();
                 messageOut.setMessage(output);
                 try {

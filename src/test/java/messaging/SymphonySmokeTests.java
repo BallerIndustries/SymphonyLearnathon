@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by nerd-they-nerd-jack on 3/6/2018.
  */
+@Ignore
 public class SymphonySmokeTests {
 
     private static SymBotAuth botAuth;

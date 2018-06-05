@@ -18,4 +18,13 @@ public class DispatcherTests {
         String message = dispatched.apply("eric", "list workflows");
         assertEquals(expected, message);
     }
+
+    @Test
+    public void listUATDispatchesToListUAT() {
+        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "list UAT");
+        assertNotNull(dispatched);
+        String expected = "Superfly v1.2\n" + "Summit v10.3.5";
+        String message = dispatched.apply("eric", "list UAT");
+        assertEquals(expected, message);
+    }
 }
