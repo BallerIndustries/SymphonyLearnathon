@@ -44,7 +44,7 @@ public class ApprovalBot {
     }
 
     public void start() {
-        URL url = getClass().getResource("/config.json");
+        URL url = getClass().getResource("config.json");
         SymConfigLoader configLoader = new SymConfigLoader();
         SymConfig config = configLoader.loadFromFile(url.getPath());
         SymBotAuth botAuth = new SymBotAuth(config);

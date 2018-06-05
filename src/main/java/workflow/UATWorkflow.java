@@ -17,6 +17,9 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import static messaging.RoomListenerImpl.INBOUND_MESSAGE;
+import static workflow.Approval.Status.APPROVED;
+import static workflow.Approval.Status.PENDING;
+import static workflow.Approval.Status.REJECTED;
 
 public class UATWorkflow implements IWorkflow {
 
@@ -33,7 +36,9 @@ public class UATWorkflow implements IWorkflow {
 
     @Override
     public boolean isTargetOf(String verb, String word) {
-        if ("add".equals(verb)) {
+        if ("approve".equals(verb) || "reject".equals(verb))
+            return roomIsChatRoomOfThisUAT();
+        else if("add".equals(verb)) {
             switch (word.toLowerCase()) {
                 case "approver":
                     return roomIsChatRoomOfThisUAT();
@@ -67,9 +72,7 @@ public class UATWorkflow implements IWorkflow {
     private String addApprovers(String text) throws IOException {
         List<Long> approvers = collectApproverIds();
         return approvers.stream().map(approverId->{
-            Approval approval = approvals.stream()
-                    .filter(a->a.approverId.equals(approverId))
-                    .findFirst().orElse(null);
+            Approval approval = findApprovalByApproverId(approverId);
             if(approval!=null)
                 return "@" + approval.approverName + " is already an approver!";
             else try {
@@ -86,6 +89,12 @@ public class UATWorkflow implements IWorkflow {
                 throw new RuntimeException(t);
             }
         }).collect(Collectors.joining("\n"));
+    }
+
+    private Approval findApprovalByApproverId(Long approverId) {
+        return approvals.stream()
+                .filter(a->a.approverId.equals(approverId))
+                .findFirst().orElse(null);
     }
 
     private void sendWelcomeToApprover(Long approverId, String approverName) throws SymClientException {
@@ -122,4 +131,42 @@ public class UATWorkflow implements IWorkflow {
         }
         return approvers;
     }
+
+    @Override
+    public BiFunction<String, String, String> approve(String msg) {
+        return (user, message) -> processStatus(message, APPROVED);
+    }
+
+    @Override
+    public BiFunction<String, String, String> reject(String msg) {
+        return (user, message) -> processStatus(message, REJECTED);
+    }
+
+    private String processStatus(String message, Approval.Status status) {
+        InboundMessage inbound = RoomListenerImpl.INBOUND_MESSAGE.get();
+        Long sender = inbound.getUser().getUserId();
+        Approval approval = findApprovalByApproverId(sender);
+        if(approval==null)
+            return "You are not a registered approver for '" + uat + "'.";
+        else {
+            if(approval.status!=PENDING) {
+                return "You have already " + approval.status.name().toLowerCase() + " '" + uat + "'.";
+            } else {
+                approval.status = status;
+                return checkFullyApproved();
+            }
+        }
+    }
+
+    private String checkFullyApproved() {
+        if(approvals.stream().anyMatch(approval->approval.status==Approval.Status.REJECTED))
+            return "'" + uat + "' has been rejected. No further action is possible.";
+        else if(approvals.stream().allMatch(approval->approval.status== APPROVED))
+            return "'" + uat + "' is now fully approved. No further action is required.";
+        else
+            return "You have approved '" + uat + "'. Other approvals are pending.";
+
+    }
+
+
 }

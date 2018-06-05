@@ -22,10 +22,36 @@ public class Dispatcher {
                 return dispatchStart(msg);
             case "add":
                 return dispatchAdd(msg);
+            case "approve":
+                return dispatchApprove(msg);
+            case "reject":
+                return dispatchReject(msg);
             default:
                 return null;
 
         }
+    }
+
+    private static BiFunction<String,String,String> dispatchReject(String msg) {
+        String word = msg.toLowerCase().trim().split(" ")[1];
+        IWorkflowTemplate template = findWorkflowTemplate(word);
+        if(template!=null)
+            return template.reject(msg);
+        IWorkflow workflow = findWorkflow("reject", word);
+        if(workflow!=null)
+            return workflow.reject(msg);
+        return  (a,b)->"Cannot use 'reject' command for " + word;
+    }
+
+    private static BiFunction<String,String,String> dispatchApprove(String msg) {
+        String word = msg.toLowerCase().trim().split(" ")[1];
+        IWorkflowTemplate template = findWorkflowTemplate(word);
+        if(template!=null)
+            return template.approve(msg);
+        IWorkflow workflow = findWorkflow("approve", word);
+        if(workflow!=null)
+            return workflow.approve(msg);
+        return  (a,b)->"Cannot use 'approve' command for " + word;
     }
 
     private static BiFunction<String,String,String> dispatchAdd(String msg) {
