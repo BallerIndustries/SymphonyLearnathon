@@ -44,7 +44,7 @@ public class TravelAndExpensesHackingTest {
     @Test
     public void canHandleYes(){
         InboundMessage someInboundMessage = jibberjabber("yEs");
-        assertText(someInboundMessage,0, "Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?",NAEEM_ROOM);
+        assertText(someInboundMessage,0, "Pacco has gone on a trip and spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?",NAEEM_ROOM);
     }
 
     @Test
