@@ -29,7 +29,7 @@ public class TravelAndExpensesHacking {
 
         List<Pair<String, OutboundMessage>> messages = new ArrayList<>();
         OutboundMessage outboundMessage = new OutboundMessage();
-        outboundMessage.setMessage("Thanks for the file. You spent $200 on transportation, $100 on food and $2200 on entertainment. If this is say yes, otherwise, make changes and reupload the CSV file.");
+        outboundMessage.setMessage("You spent $200 on transportation, $100 on food and $2200 on entertainment. If this is correct, say YES, otherwise, make changes and reupload the CSV file.");
         String streamId = inboundMessage.getStream().getStreamId();
         Pair<String, OutboundMessage> pair = new ImmutablePair<>(streamId, outboundMessage);
         messages.add(pair);
@@ -56,7 +56,7 @@ public class TravelAndExpensesHacking {
             case "YES":
                 outMsg = "Great! Sending to Naeem Ahmed for approval";
                 OutboundMessage naeemMessage = new OutboundMessage();
-                naeemMessage.setMessage("Yo Naeem, wassup? Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. All details are attached to this message.");
+                naeemMessage.setMessage("Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?");
 
                 File file2 = Utils.getInstance().getFileFromResources("paccos-boozy-trip.csv");
 
@@ -67,9 +67,15 @@ public class TravelAndExpensesHacking {
             case "APPROVE":
                 outMsg = "Great! Thanks for approving.";
                 OutboundMessage paccoMessage = new OutboundMessage();
-                paccoMessage.setMessage("You're travel expenses have been fully approved and you will be refunded $2500 for the trip " +
-                        "named 'PACCOS_BOOZY_TRIP_2018'. See ya later alligator!");
+                paccoMessage.setMessage("Your travel expenses have been fully approved and you will be refunded $2500.");
                 messages.add(new ImmutablePair<>(PACCO_ROOM, paccoMessage));
+                break;
+
+            case "REJECT":
+                outMsg = "Alright, these expenses have been rejected.";
+                OutboundMessage paccoMessage2 = new OutboundMessage();
+                paccoMessage2.setMessage("Your travel expenses have been rejected for the trip named 'PACCOS_BOOZY_TRIP_2018'.");
+                messages.add(new ImmutablePair<>(PACCO_ROOM, paccoMessage2));
                 break;
 
             default:
