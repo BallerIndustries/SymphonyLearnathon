@@ -12,6 +12,7 @@ import java.util.List;
 public class TravelAndExpensesHacking {
 
     private static final String NAEEM_ROOM = "toVneMcWvABC3IQ_KPrkcn___pwxnyXAdA";
+    private static final String PACCO_ROOM = "kdanHjGHLfOOZcK5sw5kG3___pwxn1xvdA";
 
     public List<Pair<String, OutboundMessage>> process(InboundMessage inboundMessage) {
 
@@ -46,6 +47,14 @@ public class TravelAndExpensesHacking {
 
                 naeemMessage.setAttachment(new File[] {file2});
                 messages.add(new ImmutablePair<>(NAEEM_ROOM, naeemMessage));
+                break;
+
+            case "APPROVE":
+                outMsg = "Great! Thanks for approving.";
+                OutboundMessage paccoMessage = new OutboundMessage();
+                paccoMessage.setMessage("You're travel expenses have been fully approved and you will be refunded $2500 for the trip\n" +
+                        "named 'PACCOS_BOOZY_TRIP_2018'. See ya later alligator!");
+                messages.add(new ImmutablePair<>(PACCO_ROOM, paccoMessage));
                 break;
 
             default:

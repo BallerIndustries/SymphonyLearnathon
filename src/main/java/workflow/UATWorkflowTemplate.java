@@ -45,11 +45,6 @@ public class UATWorkflowTemplate extends WorkflowTemplateBase {
         }
     }
 
-    @Override
-    public BiFunction<String, String, String> onOtherMessage(String msg) {
-        throw new NotSupportedException();
-    }
-
     private String createChatRoomFor(String roomName, String uat){
         SymBotClient botClient = ApprovalBot.app.getBotClient();
         InboundMessage inbound = RoomListenerImpl.INBOUND_MESSAGE.get();
