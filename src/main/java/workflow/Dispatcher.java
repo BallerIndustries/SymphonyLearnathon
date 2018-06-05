@@ -6,18 +6,32 @@ import java.util.stream.Collectors;
 public class Dispatcher {
 
     public static BiFunction<String, String,String> dispatch(String user, String msg) {
-        String[] words = msg.toLowerCase().trim().split(" ");
-        switch(words[0]) {
+        String word = msg.toLowerCase().trim().split(" ")[0];
+        switch(word) {
             case "list":
-                return dispatchList(words[1]);
+                return dispatchList(msg);
+            case "start":
+                return dispatchStart(msg);
             default:
                 return null;
 
         }
     }
 
-    private static BiFunction<String,String,String> dispatchList(String word) {
+    private static BiFunction<String,String,String> dispatchStart(String msg) {
+        String word = msg.toLowerCase().trim().split(" ")[1];
+        IWorkflowTemplate workflow = findWorkflowTemplate(word);
+        if(workflow==null)
+            return  (a,b)->"Cannot use 'start' command for " + word;
+        else
+            return workflow.start(msg);
+
+    }
+
+
+    private static BiFunction<String,String,String> dispatchList(String msg) {
         IWorkflowTemplate workflow;
+        String word = msg.toLowerCase().trim().split(" ")[1];
         switch(word) {
             case "workflows":
                 return Dispatcher::listWorkflows;

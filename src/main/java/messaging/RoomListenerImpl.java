@@ -22,18 +22,32 @@ public class RoomListenerImpl implements listeners.RoomListener {
 
     private final Logger logger = LoggerFactory.getLogger(RoomListenerImpl.class);
 
-    public void onRoomMessage(InboundMessage inboundMessage) {
-        String user = inboundMessage.getUser().getFirstName();
-        String message = inboundMessage.getMessageText();
-        BiFunction<String, String, String> function = Dispatcher.dispatch(user, message);
+    public static ThreadLocal<InboundMessage> INBOUND_MESSAGE = new ThreadLocal<>();
+
+    public void onRoomMessage(InboundMessage message) {
+        try {
+            INBOUND_MESSAGE.set(message);
+            processRoomMessage();
+        } finally {
+            INBOUND_MESSAGE.set(null);
+        }
+    }
+
+    public static ThreadLocal<OutboundMessage> OUTBOUND_MESSAGE = new ThreadLocal<>();
+
+    public void processRoomMessage() {
+        InboundMessage message = INBOUND_MESSAGE.get();
+        String user = message.getUser().getFirstName();
+        String text = message.getMessageText();
+        BiFunction<String, String, String> function = Dispatcher.dispatch(user, text);
         if(function!=null) {
-            String output = function.apply(user, message);
-            if (output.trim().length() > 0) {
+            String output = function.apply(user, text);
+            if (output!=null && output.trim().length() > 0) {
                 output = StringEscapeUtils.escapeHtml4(output);
                 OutboundMessage messageOut = new OutboundMessage();
                 messageOut.setMessage(output);
                 try {
-                    this.botClient.getMessagesClient().sendMessage(inboundMessage.getStream().getStreamId(), messageOut);
+                    this.botClient.getMessagesClient().sendMessage(message.getStream().getStreamId(), messageOut);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

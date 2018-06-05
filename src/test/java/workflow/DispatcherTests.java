@@ -12,19 +12,31 @@ public class DispatcherTests {
 
     @Test
     public void listWorkflowsDispatchesToListWorkflows() {
-        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "list workflows");
+        String cmd = "list workflows";
+        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", cmd);
         assertNotNull(dispatched);
         String expected = "UAT approval\n" + "T&E approval";
-        String message = dispatched.apply("eric", "list workflows");
+        String message = dispatched.apply("eric", cmd);
         assertEquals(expected, message);
     }
 
     @Test
     public void listUATDispatchesToListUAT() {
-        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "list UAT");
+        String cmd = "list UAT";
+        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", cmd);
         assertNotNull(dispatched);
         String expected = "Superfly v1.2\n" + "Summit v10.3.5";
-        String message = dispatched.apply("eric", "list UAT");
+        String message = dispatched.apply("eric", cmd);
+        assertEquals(expected, message);
+    }
+
+    @Test
+    public void startUATSummitRequestsApprover() {
+        String cmd = "start UAT Superfly v1.2";
+        BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", cmd);
+        assertNotNull(dispatched);
+        String expected = "A chat room 'Superfly v1.2 UAT approval' has been opened";
+        String message = dispatched.apply("eric", cmd);
         assertEquals(expected, message);
     }
 }
