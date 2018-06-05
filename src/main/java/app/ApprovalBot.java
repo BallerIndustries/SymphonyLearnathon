@@ -32,7 +32,7 @@ public class ApprovalBot {
         SymConfig config = configLoader.loadFromFile(url.getPath());
         SymBotAuth botAuth = new SymBotAuth(config);
         botAuth.authenticate();
-
+        System.out.println("startTAndE has authenticated");
 
         botClient = SymBotClient.initBot(config, botAuth);
         RoomListener roomListenerTest = new TAndERoomListenerImpl(botClient);
@@ -65,6 +65,4 @@ public class ApprovalBot {
     public SymBotClient getBotClient() {
         return botClient;
     }
-
-
 }

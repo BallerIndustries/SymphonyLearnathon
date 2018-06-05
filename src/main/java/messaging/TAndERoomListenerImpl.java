@@ -30,14 +30,13 @@ public class TAndERoomListenerImpl implements listeners.RoomListener {
     public static ThreadLocal<InboundMessage> INBOUND_MESSAGE = new ThreadLocal<>();
 
     public void onRoomMessage(InboundMessage inboundMessage) {
-        String user = inboundMessage.getUser().getFirstName();
-        String message = inboundMessage.getMessageText();
-        System.out.println("room message = " + message);
-
-        List<Pair<String, OutboundMessage>> messages = hacking.process(inboundMessage);
-
         try {
-            for (Pair<String, OutboundMessage> pair: messages) {
+            String user = inboundMessage.getUser().getFirstName();
+            String message = inboundMessage.getMessageText();
+            System.out.println("room message = " + message);
+            List<Pair<String, OutboundMessage>> messages = hacking.process(inboundMessage);
+
+            for (Pair<String, OutboundMessage> pair : messages) {
                 this.botClient.getMessagesClient().sendMessage(pair.getLeft(), pair.getRight());
             }
         }
@@ -72,7 +71,7 @@ public class TAndERoomListenerImpl implements listeners.RoomListener {
 
     public void onUserJoinedRoom(UserJoinedRoom userJoinedRoom) {
         OutboundMessage messageOut = new OutboundMessage();
-        messageOut.setMessage("Welcome "+userJoinedRoom.getAffectedUser().getFirstName()+"!");
+        messageOut.setMessage("Welcome " + userJoinedRoom.getAffectedUser().getFirstName() + "!");
         try {
             this.botClient.getMessagesClient().sendMessage(userJoinedRoom.getStream().getStreamId(), messageOut);
         } catch (Exception e) {

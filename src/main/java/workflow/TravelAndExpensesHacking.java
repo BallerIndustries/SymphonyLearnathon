@@ -1,5 +1,6 @@
 package workflow;
 
+import model.Attachment;
 import model.InboundMessage;
 import model.OutboundMessage;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -14,19 +15,36 @@ public class TravelAndExpensesHacking {
     private static final String NAEEM_ROOM = "toVneMcWvABC3IQ_KPrkcn___pwxnyXAdA";
     private static final String PACCO_ROOM = "kdanHjGHLfOOZcK5sw5kG3___pwxn1xvdA";
 
-    public List<Pair<String, OutboundMessage>> process(InboundMessage inboundMessage) {
+    List<Pair<String, OutboundMessage>> processAttachments(InboundMessage inboundMessage) {
+        if (inboundMessage.getAttachments() == null || inboundMessage.getAttachments().size() <= 0) {
+            return null;
+        }
 
+        Attachment recievedFile = inboundMessage.getAttachments().get(0);
+
+        if (!recievedFile.getName().endsWith(".csv")) {
+            return null;
+        }
+
+        List<Pair<String, OutboundMessage>> messages = new ArrayList<>();
         OutboundMessage outboundMessage = new OutboundMessage();
-        String msg = inboundMessage.getMessageText().toUpperCase().trim();
+        outboundMessage.setMessage("Thanks for the file. You spent $200 on transportation, $100 on food and $2200 on entertainment. If this is say yes, otherwise, make changes and reupload the CSV file.");
         String streamId = inboundMessage.getStream().getStreamId();
+        Pair<String, OutboundMessage> pair = new ImmutablePair<>(streamId, outboundMessage);
+        messages.add(pair);
+
+        return messages;
+    }
+
+    List<Pair<String, OutboundMessage>> processText(InboundMessage inboundMessage) {
         List<Pair<String, OutboundMessage>> messages = new ArrayList<>();
 
-        String outMsg;
+        String msg = inboundMessage.getMessageText().toUpperCase();
+
+        String outMsg = null;
+        OutboundMessage outboundMessage = new OutboundMessage();
+
         switch (msg) {
-            case "UPLOADED CSV FILE":
-                outMsg = "Thanks for the file. You spent $200 on transportation, $100 on food and $2200 on entertainment.\n" +
-                        "If this is say yes, otherwise, make changes and reupload the CSV file.";
-                break;
 
             case "TRAVEL EXPENSES":
                 outMsg = "Upload a CSV file with your expenses. Template is attached.";
@@ -45,7 +63,7 @@ public class TravelAndExpensesHacking {
                 ClassLoader classLoader2 = getClass().getClassLoader();
                 File file2 = new File(classLoader2.getResource("paccos-boozy-trip.csv").getFile());
 
-                naeemMessage.setAttachment(new File[] {file2});
+                naeemMessage.setAttachment(new File[]{file2});
                 messages.add(new ImmutablePair<>(NAEEM_ROOM, naeemMessage));
                 break;
 
@@ -63,7 +81,22 @@ public class TravelAndExpensesHacking {
         }
 
         outboundMessage.setMessage(outMsg);
-        messages.add(new ImmutablePair<>(streamId, outboundMessage));
+        messages.add(new ImmutablePair<>(inboundMessage.getStream().getStreamId(), outboundMessage));
         return messages;
+    }
+
+    public List<Pair<String, OutboundMessage>> process(InboundMessage inboundMessage) {
+        List<Pair<String, OutboundMessage>> attachmentResult = processAttachments(inboundMessage);
+        List<Pair<String, OutboundMessage>> result = processText(inboundMessage);
+
+        if (attachmentResult != null) {
+            return attachmentResult;
+        }
+        if (result != null) {
+            return result;
+        }
+        else {
+            throw new RuntimeException("Did not expect that to happen");
+        }
     }
 }
