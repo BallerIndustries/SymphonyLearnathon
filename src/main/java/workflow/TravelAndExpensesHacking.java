@@ -5,6 +5,7 @@ import model.InboundMessage;
 import model.OutboundMessage;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,8 +49,7 @@ public class TravelAndExpensesHacking {
 
             case "TRAVEL EXPENSES":
                 outMsg = "Upload a CSV file with your expenses. Template is attached.";
-                ClassLoader classLoader = getClass().getClassLoader();
-                File file = new File(classLoader.getResource("tande_template.csv").getFile());
+                File file = Utils.getInstance().getFileFromResources("tande_template.csv");
                 outboundMessage.setAttachment(new File[]{file});
                 break;
 
@@ -60,8 +60,7 @@ public class TravelAndExpensesHacking {
                         "Pacco spent $200 on transportation, $100 on food and $2200 on entertainment.\n" +
                         "All details are attached to this message.");
 
-                ClassLoader classLoader2 = getClass().getClassLoader();
-                File file2 = new File(classLoader2.getResource("paccos-boozy-trip.csv").getFile());
+                File file2 = Utils.getInstance().getFileFromResources("paccos-boozy-trip.csv");
 
                 naeemMessage.setAttachment(new File[]{file2});
                 messages.add(new ImmutablePair<>(NAEEM_ROOM, naeemMessage));

@@ -59,7 +59,6 @@ public class ApprovalBot {
         DatafeedEventsService datafeedEventsService = botClient.getDatafeedEventsService();
         datafeedEventsService.addRoomListener(roomListenerTest);
         datafeedEventsService.addIMListener(imListener);
-
     }
 
     public SymBotClient getBotClient() {
