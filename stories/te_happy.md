@@ -1,13 +1,13 @@
 --------------------
 Chat with Pacco and the bot
 --------------------
-Pacco: LIST WORKFLOWS
+Pacco: List workflows
 
 Bot:
     UAT Approval
     Travel Expenses
 
-Pacco: Travel Expenses
+Pacco: Start Travel Expenses
 
 Bot: Upload a CSV file with your expenses. Template is attached. [template.csv]
 
