@@ -44,7 +44,7 @@ public class ApprovalBot {
     }
 
     public void start() {
-        URL url = getClass().getResource("config.json");
+        URL url = getClass().getResource("/config.json");
         SymConfigLoader configLoader = new SymConfigLoader();
         SymConfig config = configLoader.loadFromFile(url.getPath());
         SymBotAuth botAuth = new SymBotAuth(config);
@@ -53,11 +53,11 @@ public class ApprovalBot {
 
         botClient = SymBotClient.initBot(config, botAuth);
 
-        RoomListener roomListenerTest = new RoomListenerImpl(botClient);
+        RoomListener roomListener = new RoomListenerImpl(botClient);
         IMListener imListener = new IMListenerImpl(botClient);
 
         DatafeedEventsService datafeedEventsService = botClient.getDatafeedEventsService();
-        datafeedEventsService.addRoomListener(roomListenerTest);
+        datafeedEventsService.addRoomListener(roomListener);
         datafeedEventsService.addIMListener(imListener);
     }
 

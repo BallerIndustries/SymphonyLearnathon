@@ -1,5 +1,6 @@
 package workflow;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.function.*;
@@ -9,6 +10,11 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class DispatcherTests {
+
+    @Before
+    public void before() {
+        UATWorkflowTemplate.reset();
+    }
 
     @Test
     public void listWorkflowsDispatchesToListWorkflows() {
@@ -39,6 +45,13 @@ public class DispatcherTests {
         String message = dispatched.apply("eric", cmd);
         assertEquals(expected, message);
     }
+
+    @Test
+    public void addUATApproverAddsIt() {
+        // String cmd = "add approver @Naeem Ahmed";
+        // String expected = "Approval @Naeem Ahmed has been added";
+    }
+
     @Test
     public void startTEApproval() {
         BiFunction<String, String, String> dispatched = Dispatcher.dispatch("eric", "start T&E approval");

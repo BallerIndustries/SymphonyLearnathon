@@ -1,9 +1,17 @@
 package workflow;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class Dispatcher {
+
+    static Map<String, IWorkflow> ALL_WORKFLOWS = new HashMap<>();
+
+    public static void reset() {
+        ALL_WORKFLOWS = new HashMap<>();
+    }
 
     public static BiFunction<String, String,String> dispatch(String user, String msg) {
         String word = msg.toLowerCase().trim().split(" ")[0];
@@ -12,32 +20,52 @@ public class Dispatcher {
                 return dispatchList(msg);
             case "start":
                 return dispatchStart(msg);
+            case "add":
+                return dispatchAdd(msg);
             default:
                 return null;
 
         }
     }
 
+    private static BiFunction<String,String,String> dispatchAdd(String msg) {
+        String word = msg.toLowerCase().trim().split(" ")[1];
+        IWorkflowTemplate template = findWorkflowTemplate(word);
+        if(template!=null)
+            return template.add(msg);
+        IWorkflow workflow = findWorkflow("add", word);
+        if(workflow!=null)
+            return workflow.add(msg);
+        return  (a,b)->"Cannot use 'add' command for " + word;
+    }
+
+    private static IWorkflow findWorkflow(String verb, String word) {
+        return ALL_WORKFLOWS.values().stream()
+                .filter(workflow -> workflow.isTargetOf(verb, word))
+                .findFirst()
+                .orElse(null);
+    }
+
     private static BiFunction<String,String,String> dispatchStart(String msg) {
         String word = msg.toLowerCase().trim().split(" ")[1];
-        IWorkflowTemplate workflow = findWorkflowTemplate(word);
-        if(workflow==null)
+        IWorkflowTemplate template = findWorkflowTemplate(word);
+        if(template==null)
             return  (a,b)->"Cannot use 'start' command for " + word;
         else
-            return workflow.start(msg);
+            return template.start(msg);
 
     }
 
 
     private static BiFunction<String,String,String> dispatchList(String msg) {
-        IWorkflowTemplate workflow;
+        IWorkflowTemplate template;
         String word = msg.toLowerCase().trim().split(" ")[1];
         switch(word) {
             case "workflows":
                 return Dispatcher::listWorkflows;
             default:
-                workflow = findWorkflowTemplate(word);
-                return workflow==null ? (a,b)->"Cannot use 'list' command for " + word : workflow.list();
+                template = findWorkflowTemplate(word);
+                return template==null ? (a,b)->"Cannot use 'list' command for " + word : template.list();
         }
     }
 
