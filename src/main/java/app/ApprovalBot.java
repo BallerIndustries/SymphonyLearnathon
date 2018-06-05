@@ -8,7 +8,6 @@ import listeners.IMListener;
 import listeners.RoomListener;
 import messaging.IMListenerImpl;
 import messaging.RoomListenerImpl;
-import messaging.TAndEIMListenerImpl;
 import messaging.TAndERoomListenerImpl;
 import services.DatafeedEventsService;
 
@@ -36,11 +35,9 @@ public class ApprovalBot {
 
         botClient = SymBotClient.initBot(config, botAuth);
         RoomListener roomListenerTest = new TAndERoomListenerImpl(botClient);
-        IMListener imListener = new TAndEIMListenerImpl(botClient);
 
         DatafeedEventsService datafeedEventsService = botClient.getDatafeedEventsService();
         datafeedEventsService.addRoomListener(roomListenerTest);
-        datafeedEventsService.addIMListener(imListener);
     }
 
     public void start() {
