@@ -56,9 +56,7 @@ public class TravelAndExpensesHacking {
             case "YES":
                 outMsg = "Great! Sending to Naeem Ahmed for approval";
                 OutboundMessage naeemMessage = new OutboundMessage();
-                naeemMessage.setMessage("Yo Naeem, wassup? Pacco has gone and a trip and would like to claim some expenses.\n" +
-                        "Pacco spent $200 on transportation, $100 on food and $2200 on entertainment.\n" +
-                        "All details are attached to this message.");
+                naeemMessage.setMessage("Yo Naeem, wassup? Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. All details are attached to this message.");
 
                 File file2 = Utils.getInstance().getFileFromResources("paccos-boozy-trip.csv");
 
@@ -69,7 +67,7 @@ public class TravelAndExpensesHacking {
             case "APPROVE":
                 outMsg = "Great! Thanks for approving.";
                 OutboundMessage paccoMessage = new OutboundMessage();
-                paccoMessage.setMessage("You're travel expenses have been fully approved and you will be refunded $2500 for the trip\n" +
+                paccoMessage.setMessage("You're travel expenses have been fully approved and you will be refunded $2500 for the trip " +
                         "named 'PACCOS_BOOZY_TRIP_2018'. See ya later alligator!");
                 messages.add(new ImmutablePair<>(PACCO_ROOM, paccoMessage));
                 break;
