@@ -33,12 +33,11 @@ public class TravelAndExpensesHackingTest {
         List<Pair<String, OutboundMessage>> result = travelAndExpensesHacking.process(inboundMessage);
         assertEquals(result.get(index).getRight().getMessage(),expectedResponse);
         assertEquals(result.get(index).getLeft(), expectedStreamId);
-
     }
 
     @Test
     public void canHandleTravelExpensesMesssage() {
-        InboundMessage someInboundMessage = jibberjabber("Start Travel Expenses");
+        InboundMessage someInboundMessage = jibberjabber("Start T&E approval");
         assertText(someInboundMessage, 0, "Upload a CSV file with your expenses. Template is attached.","someID");
     }
 

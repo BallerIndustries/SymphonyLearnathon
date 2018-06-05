@@ -46,7 +46,7 @@ public class TravelAndExpensesHacking {
 
         switch (msg) {
 
-            case "START TRAVEL EXPENSES":
+            case "START T&E APPROVAL":
                 outMsg = "Upload a CSV file with your expenses. Template is attached.";
                 File file = Utils.getInstance().getFileFromResources("tande_template.csv");
                 outboundMessage.setAttachment(new File[]{file});
