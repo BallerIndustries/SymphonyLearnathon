@@ -33,7 +33,8 @@ public class Dispatcher {
     }
 
     private static BiFunction<String,String,String> dispatchReject(String msg) {
-        String word = msg.toLowerCase().trim().split(" ")[1];
+        String[] words = msg.toLowerCase().trim().split(" ");
+        String word = words.length > 1 ? words[1] : "";
         IWorkflowTemplate template = findWorkflowTemplate(word);
         if(template!=null)
             return template.reject(msg);
@@ -44,7 +45,8 @@ public class Dispatcher {
     }
 
     private static BiFunction<String,String,String> dispatchApprove(String msg) {
-        String word = msg.toLowerCase().trim().split(" ")[1];
+        String[] words = msg.toLowerCase().trim().split(" ");
+        String word = words.length > 1 ? words[1] : "";
         IWorkflowTemplate template = findWorkflowTemplate(word);
         if(template!=null)
             return template.approve(msg);
@@ -55,7 +57,8 @@ public class Dispatcher {
     }
 
     private static BiFunction<String,String,String> dispatchAdd(String msg) {
-        String word = msg.toLowerCase().trim().split(" ")[1];
+        String[] words = msg.toLowerCase().trim().split(" ");
+        String word = words.length > 1 ? words[1] : "";
         IWorkflowTemplate template = findWorkflowTemplate(word);
         if(template!=null)
             return template.add(msg);
@@ -65,15 +68,9 @@ public class Dispatcher {
         return  (a,b)->"Cannot use 'add' command for " + word;
     }
 
-    private static IWorkflow findWorkflow(String verb, String word) {
-        return ALL_WORKFLOWS.values().stream()
-                .filter(workflow -> workflow.isTargetOf(verb, word))
-                .findFirst()
-                .orElse(null);
-    }
-
     private static BiFunction<String,String,String> dispatchStart(String msg) {
-        String word = msg.toLowerCase().trim().split(" ")[1];
+        String[] words = msg.toLowerCase().trim().split(" ");
+        String word = words.length > 1 ? words[1] : "";
         IWorkflowTemplate template = findWorkflowTemplate(word);
         if(template==null)
             return  (a,b)->"Cannot use 'start' command for " + word;
@@ -81,6 +78,14 @@ public class Dispatcher {
             return template.start(msg);
 
     }
+
+    private static IWorkflow findWorkflow(String verb, String word) {
+        return ALL_WORKFLOWS.values().stream()
+                .filter(workflow -> workflow.isTargetOf(verb, word))
+                .findFirst()
+                .orElse(null);
+    }
+
 
 
     private static BiFunction<String,String,String> dispatchList(String msg) {
