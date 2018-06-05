@@ -38,7 +38,7 @@ public class TravelAndExpensesHackingTest {
 
     @Test
     public void canHandleTravelExpensesMesssage() {
-        InboundMessage someInboundMessage = jibberjabber("Travel Expenses");
+        InboundMessage someInboundMessage = jibberjabber("Start Travel Expenses");
         assertText(someInboundMessage, 0, "Upload a CSV file with your expenses. Template is attached.","someID");
     }
 
