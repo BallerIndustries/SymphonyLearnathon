@@ -101,6 +101,8 @@ public class Dispatcher {
     }
 
     private static IWorkflowTemplate findWorkflowTemplate(String word) {
+        if(word==null || word.trim().isEmpty())
+            return null; 
         return WorflowEngine.getAllWorkflowTemplates().stream()
                 .filter(wt->wt.getName().toLowerCase().startsWith(word))
                 .findFirst()
