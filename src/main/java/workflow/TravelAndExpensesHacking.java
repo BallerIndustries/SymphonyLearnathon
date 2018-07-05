@@ -46,7 +46,7 @@ public class TravelAndExpensesHacking {
 
         switch (msg) {
 
-            case "TRAVEL EXPENSES":
+            case "START T&E APPROVAL":
                 outMsg = "Upload a CSV file with your expenses. Template is attached.";
                 File file = Utils.getInstance().getFileFromResources("tande_template.csv");
                 outboundMessage.setAttachment(new File[]{file});
@@ -55,7 +55,7 @@ public class TravelAndExpensesHacking {
             case "YES":
                 outMsg = "Great! Sending to Naeem Ahmed for approval";
                 OutboundMessage naeemMessage = new OutboundMessage();
-                naeemMessage.setMessage("Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?");
+                naeemMessage.setMessage("Pacco has gone on a trip and spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?");
 
                 File file2 = Utils.getInstance().getFileFromResources("paccos-boozy-trip.csv");
 

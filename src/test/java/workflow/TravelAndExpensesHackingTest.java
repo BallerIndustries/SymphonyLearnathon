@@ -33,19 +33,18 @@ public class TravelAndExpensesHackingTest {
         List<Pair<String, OutboundMessage>> result = travelAndExpensesHacking.process(inboundMessage);
         assertEquals(result.get(index).getRight().getMessage(),expectedResponse);
         assertEquals(result.get(index).getLeft(), expectedStreamId);
-
     }
 
     @Test
     public void canHandleTravelExpensesMesssage() {
-        InboundMessage someInboundMessage = jibberjabber("Travel Expenses");
+        InboundMessage someInboundMessage = jibberjabber("Start T&E approval");
         assertText(someInboundMessage, 0, "Upload a CSV file with your expenses. Template is attached.","someID");
     }
 
     @Test
     public void canHandleYes(){
         InboundMessage someInboundMessage = jibberjabber("yEs");
-        assertText(someInboundMessage,0, "Pacco has gone and a trip and would like to claim some expenses. Pacco spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?",NAEEM_ROOM);
+        assertText(someInboundMessage,0, "Pacco has gone on a trip and spent $200 on transportation, $100 on food and $2200 on entertainment. Details are attached. [APPROVE/REJECT]?",NAEEM_ROOM);
     }
 
     @Test
